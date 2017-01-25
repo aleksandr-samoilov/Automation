@@ -43,8 +43,8 @@ pr_partnertech = '\\\\alma\\Images\\Internal images\\GD\\Platforms\cashier\\part
 # root folder for Headless (mediastation) cashier platform
 pr_headless = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\cashier\\headless'
 
-# root folder for Mediastation product. Yes, it is from 1.55 Mexico
-pr_media_product = '\\\\alma\\Images\\Internal images\\Mexico\\1.04.155'
+# root folder for Mediastation product and Configuration. Yes, it is from 1.55 Mexico
+pr_mediastation = '\\\\alma\\Images\\Internal images\\Mexico\\1.04.155'
 
 # root folder for Install Script
 usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
@@ -53,7 +53,6 @@ usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
 
 
 def install():
-    # usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
 
     distutils.dir_util.copy_tree(usb_hdd_install, pre_dst)
     print('Install script copied to ' + pre_dst)
@@ -90,8 +89,6 @@ def pr_configuration():
 
 
 def pr_cashier_configuration():
-    # root folder
-    # pr_alma = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156'
 
     # array of config folders
     conf = []
@@ -120,8 +117,6 @@ def pr_cashier_configuration():
 
 
 def pr_mediastation_configuration():
-    # root folder
-    # pr_alma = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156'
 
     # array of config folders
     conf = []
@@ -150,7 +145,6 @@ def pr_mediastation_configuration():
 
 
 def pr_product():
-    # pr_alma = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156'
 
     pro = []  # array of production folders
 
@@ -302,7 +296,6 @@ def pr_platform_blade():
 
 
 def pr_platform_silverball():
-    # pr_silverball = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\puertorico'
 
     pr_silverball_list = []
 
@@ -323,7 +316,6 @@ def pr_platform_silverball():
 
 
 def pr_cashier_platform():
-    # pr_partnertech = '\\\\alma\\Images\\Internal images\\GD\\Platforms\cashier\\partnertech'
 
     pr_partnertech_list = []
 
@@ -371,7 +363,7 @@ def pr_mediastation_product():
 
     pattern = 'mediastation_*'
 
-    for path, dirs, files in os.walk(pr_media_product):
+    for path, dirs, files in os.walk(pr_mediastation):
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration']]  # ignore folders
         for filename in files:
             if fnmatch(filename, pattern):
