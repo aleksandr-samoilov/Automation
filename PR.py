@@ -1,5 +1,4 @@
 import os
-import string
 import distutils.dir_util
 import distutils.file_util
 from fnmatch import fnmatch
@@ -58,9 +57,7 @@ def install():
     print('Install script copied to ' + pre_dst)
 
 
-def pr_configuration():
-    # root folder
-    # pr_alma = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156'
+def pr_terminal_configuration():
 
     # array of config folders
     conf = []
@@ -88,65 +85,10 @@ def pr_configuration():
         i += 1
 
 
-def pr_cashier_configuration():
+def pr_terminal_product():
 
-    # array of config folders
-    conf = []
-
-    # pattern to filter out other files
-    pattern = 'vbqa_cashier_partnertech6200_*'
-
-    for path, dirs, files in os.walk(pr_alma):
-        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):  # find all files that fit the pattern
-                fullpath = os.path.join(path, filename)  # filename)
-                conf.append(fullpath)
-                conf.sort(reverse=True)  # reverse the list
-
-# define source and destination for future copy
-    dst1 = pre_dst + '\\configuration'
-
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
-    i = 0
-    while i != 2:
-        str1 = ''.join(conf[i])  # converts list to string
-        distutils.file_util.copy_file(str1, dst1)
-        print("Copied " + str1 + " to " + dst1)
-        i += 1
-
-
-def pr_mediastation_configuration():
-
-    # array of config folders
-    conf = []
-
-    # pattern to filter out other files
-    pattern = 'vbqa_mediastation*'
-
-    for path, dirs, files in os.walk(pr_alma):
-        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):  # find all files that fit the pattern
-                fullpath = os.path.join(path, filename)  # filename)
-                conf.append(fullpath)
-                conf.sort(reverse=True)  # reverse the list
-
-# define source and destination for future copy
-    dst1 = pre_dst + '\\configuration'
-
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
-    i = 0
-    while i != 2:
-        str1 = ''.join(conf[i])  # converts list to string
-        distutils.file_util.copy_file(str1, dst1)
-        print("Copied " + str1 + " to " + dst1)
-        i += 1
-
-
-def pr_product():
-
-    pro = []  # array of production folders
+    # array of production folders
+    pro = []
 
     pattern = 'terminal_single_es*'
     for path, dirs, files in os.walk(pr_alma):
@@ -157,47 +99,18 @@ def pr_product():
                 pro.append(fullpath)
                 pro.sort(reverse=True)
 
-# converts path to string
-
+    # converts path to string
     str2 = ''.join(pro[0])
 
-# define destination for future copy
+    # define destination for future copy
     dst2 = pre_dst + '\\product'
 
-# copy all files
-    distutils.file_util.copy_file(str2, dst2)
-    print("Copied " + str2 + " to " + dst2)
-
-
-def pr_cashier_product():
-    # pr_alma = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156'
-
-    pro_cashier = []  # array of production folders
-
-    pattern = 'cashier_*'
-
-    for path, dirs, files in os.walk(pr_alma):
-        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):
-                fullpath = os.path.join(path, filename)
-                pro_cashier.append(fullpath)
-                pro_cashier.sort(reverse=True)
-
-# converts path to string
-    str2 = ''.join(pro_cashier[0])
-
-# define destination for future copy
-    dst2 = pre_dst + '\\product'
-
-# copy all files
+    # copy all files
     distutils.file_util.copy_file(str2, dst2)
     print("Copied " + str2 + " to " + dst2)
 
 
 def pr_content():
-    # root folder to work with
-    # pr_alma = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156'
 
     # new folder required for content to be visible by install script.
     full_path = pre_dst + '\\content\\terminal_puertorico_Games.000_1.wim'
@@ -249,12 +162,16 @@ def pr_banners():
     src_banners_spa_promo = '\\\\alma\\production\\Production_prototype_2012\\0_storage\\generic\\promo\\terminal_banners.promo.SPA.1_1.wim'
 
     distutils.file_util.copy_file(src_banners_spa, dst_banners)
+    print('Copied ' + src_banners_spa + ' to ' + dst_banners)
+
     distutils.file_util.copy_file(src_banners_eng, dst_banners)
+    print('Copied ' + src_banners_eng + ' to ' + dst_banners)
+
     distutils.file_util.copy_file(src_banners_spa_promo, dst_banners)
+    print('Copied ' + src_banners_spa_promo + ' to ' + dst_banners)
 
 
 def pr_platform_lara():
-    # pr_lara = '\\\\alma\Images\\Internal images\GD\\Platforms\\terminal\\lara'
 
     pr_lara_list = []
 
@@ -275,7 +192,6 @@ def pr_platform_lara():
 
 
 def pr_platform_blade():
-    # pr_blade = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\puertorico'
 
     pr_blade_list = []
 
@@ -313,6 +229,59 @@ def pr_platform_silverball():
     distutils.file_util.copy_file(platform_str, dst_platform)
 
     print('Copied ' + platform_str + ' to ' + dst_platform)
+
+
+def pr_cashier_configuration():
+
+    # array of config folders
+    conf = []
+
+    # pattern to filter out other files
+    pattern = 'vbqa_cashier_partnertech6200_*'
+
+    for path, dirs, files in os.walk(pr_alma):
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):  # find all files that fit the pattern
+                fullpath = os.path.join(path, filename)  # filename)
+                conf.append(fullpath)
+                conf.sort(reverse=True)  # reverse the list
+
+# define source and destination for future copy
+    dst1 = pre_dst + '\\configuration'
+
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        str1 = ''.join(conf[i])  # converts list to string
+        distutils.file_util.copy_file(str1, dst1)
+        print("Copied " + str1 + " to " + dst1)
+        i += 1
+
+
+def pr_cashier_product():
+
+    pro_cashier = []  # array of production folders
+
+    pattern = 'cashier_*'
+
+    for path, dirs, files in os.walk(pr_alma):
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):
+                fullpath = os.path.join(path, filename)
+                pro_cashier.append(fullpath)
+                pro_cashier.sort(reverse=True)
+
+    # converts path to string
+    str2 = ''.join(pro_cashier[0])
+
+    # define destination for future copy
+    dst2 = pre_dst + '\\product'
+
+    # copy all files
+    distutils.file_util.copy_file(str2, dst2)
+    print("Copied " + str2 + " to " + dst2)
 
 
 def pr_cashier_platform():
@@ -377,6 +346,35 @@ def pr_mediastation_product():
 
     print('Copied ' + pr_media_str + ' to ' + dst_media_product)
 
+
+def pr_mediastation_configuration():
+
+    # array of config folders
+    conf = []
+
+    # pattern to filter out other files
+    pattern = 'vbqa_mediastation*'
+
+    for path, dirs, files in os.walk(pr_alma):
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):  # find all files that fit the pattern
+                fullpath = os.path.join(path, filename)  # filename)
+                conf.append(fullpath)
+                conf.sort(reverse=True)  # reverse the list
+
+# define source and destination for future copy
+    dst1 = pre_dst + '\\configuration'
+
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        str1 = ''.join(conf[i])  # converts list to string
+        distutils.file_util.copy_file(str1, dst1)
+        print("Copied " + str1 + " to " + dst1)
+        i += 1
+
+
 if drive_list:
     print('------------------------------------------------------------------------------------')
     print('The year 2011 ... ')
@@ -403,8 +401,8 @@ if drive_list:
             pr_platform_silverball()
             pr_platform_blade()
             pr_platform_lara()
-            pr_product()
-            pr_configuration()
+            pr_terminal_product()
+            pr_terminal_configuration()
             pr_content()
             pr_banners()
             sys.exit()
@@ -420,11 +418,11 @@ if drive_list:
         if choice == '3':
             print('Preparing to copy mediastation part')
             # install script
-            # install()
+            install()
             # mediastation
             pr_mediastation_product()
-            # pr_mediastation_configuration()
-            # pr_mediastation_platform()
+            pr_mediastation_configuration()
+            pr_mediastation_platform()
             sys.exit()
         if choice == '4':
             print('Preparing to copy EVERYTHING')
@@ -434,8 +432,8 @@ if drive_list:
             pr_platform_silverball()
             pr_platform_blade()
             pr_platform_lara()
-            pr_product()
-            pr_configuration()
+            pr_terminal_product()
+            pr_terminal_configuration()
             pr_content()
             pr_banners()
             # cashier
