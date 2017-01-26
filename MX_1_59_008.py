@@ -47,6 +47,9 @@ mx_epson = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\cashier\\epson700'
 # root folder for Headless (mediastation) cashier
 mx_headless = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\cashier\\headless'
 
+# root folder for Mediastation product. Yes, it is from 1.55 Mexico
+mx_mediastation = '\\\\alma\\Images\\Internal images\\Mexico\\1.04.155'
+
 # root folder for Install Script
 usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
 
@@ -59,7 +62,7 @@ def install():
     print('Install script copied to ' + pre_dst)
 
 
-def mx_configuration():
+def mx_terminal_configuration():
 
     # array of config folders
     conf = []
@@ -87,63 +90,7 @@ def mx_configuration():
         i += 1
 
 
-def mx_cashier_configuration():
-
-    # array of config folders
-    conf = []
-
-    # pattern to filter out other files
-    pattern = 'vbqa_cashier_epson700_*'
-
-    for path, dirs, files in os.walk(mx_alma):
-        dirs[:] = [d for d in dirs if d not in ['OLD_v3_configuration', 'content', 'product']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):  # find all files that fit the pattern
-                fullpath = os.path.join(path, filename)  # create full path
-                conf.append(fullpath)  # add full path to array
-                conf.sort(reverse=True)  # reverse the list
-
-# define source and destination for future copy
-    dst = pre_dst + '\\configuration'
-
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
-    i = 0
-    while i != 2:
-        str1 = ''.join(conf[i])  # converts list to string
-        distutils.file_util.copy_file(str1, dst)
-        print("Copied " + str1 + " to " + dst)
-        i += 1
-
-
-def mx_mediastation_configuration():
-
-    # array of config folders
-    conf = []
-
-    # pattern to filter out other files
-    pattern = 'vbqa_mediastation_*'
-
-    for path, dirs, files in os.walk(mx_alma):
-        dirs[:] = [d for d in dirs if d not in ['OLD_v3_configuration', 'content', 'product']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):  # find all files that fit the pattern
-                fullpath = os.path.join(path, filename)  # create full path
-                conf.append(fullpath)  # add full path to array
-                conf.sort(reverse=True)  # reverse the list
-
-# define source and destination for future copy
-    dst = pre_dst + '\\configuration'
-
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
-    i = 0
-    while i != 2:
-        str1 = ''.join(conf[i])  # converts list to string
-        distutils.file_util.copy_file(str1, dst)
-        print("Copied " + str1 + " to " + dst)
-        i += 1
-
-
-def mx_product():
+def mx_terminal_product():
 
     # array of production folders
     pro = []
@@ -164,32 +111,6 @@ def mx_product():
     i = 0
     while i != 2:
         str1 = ''.join(pro[i])  # converts list to string
-        distutils.file_util.copy_file(str1, dst)
-        print("Copied " + str1 + " to " + dst)
-        i += 1
-
-
-def mx_cashier_product():
-
-    pro_cashier = []  # array of production folders
-
-    pattern = 'cashier_*'
-
-    for path, dirs, files in os.walk(mx_alma):
-        dirs[:] = [d for d in dirs if d not in ['content', 'configuration']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):
-                fullpath = os.path.join(path, filename)
-                pro_cashier.append(fullpath)
-                pro_cashier.sort(reverse=True)
-
-# define destination for future copy
-    dst = pre_dst + '\\product'
-
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
-    i = 0
-    while i != 2:
-        str1 = ''.join(pro_cashier[i])  # converts list to string
         distutils.file_util.copy_file(str1, dst)
         print("Copied " + str1 + " to " + dst)
         i += 1
@@ -253,7 +174,7 @@ def mx_content_006():
     cont = []
 
     # loop to find all .wim files in "Content" folders and filtering other folders. Results added to cont[] array
-    for path, dirs, files in os.walk(mx_alma):
+    for path, dirs, files in os.walk(mx_alma_006):
         dirs[:] = [d for d in dirs if d not in ['configuration', 'product', 'OLD_configuration', 'new_v5_configuration', 'old_configuration']]  # ignore folders
         files[:] = [f for f in files if f not in ['DummyGames159.wim']]  # ignore files
         for filename in files:
@@ -356,6 +277,60 @@ def mx_cashier_platform():
         i += 1
 
 
+def mx_cashier_configuration():
+
+    # array of config folders
+    conf = []
+
+    # pattern to filter out other files
+    pattern = 'vbqa_cashier_epson700_*'
+
+    for path, dirs, files in os.walk(mx_alma):
+        dirs[:] = [d for d in dirs if d not in ['OLD_v3_configuration', 'content', 'product']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):  # find all files that fit the pattern
+                fullpath = os.path.join(path, filename)  # create full path
+                conf.append(fullpath)  # add full path to array
+                conf.sort(reverse=True)  # reverse the list
+
+# define source and destination for future copy
+    dst = pre_dst + '\\configuration'
+
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        str1 = ''.join(conf[i])  # converts list to string
+        distutils.file_util.copy_file(str1, dst)
+        print("Copied " + str1 + " to " + dst)
+        i += 1
+
+
+def mx_cashier_product():
+
+    pro_cashier = []  # array of production folders
+
+    pattern = 'cashier_*'
+
+    for path, dirs, files in os.walk(mx_alma):
+        dirs[:] = [d for d in dirs if d not in ['content', 'configuration']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):
+                fullpath = os.path.join(path, filename)
+                pro_cashier.append(fullpath)
+                pro_cashier.sort(reverse=True)
+
+# define destination for future copy
+    dst = pre_dst + '\\product'
+
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        str1 = ''.join(pro_cashier[i])  # converts list to string
+        distutils.file_util.copy_file(str1, dst)
+        print("Copied " + str1 + " to " + dst)
+        i += 1
+
+'''
 def mx_mediastation_platform():
 
     mx_headless_list = []
@@ -375,6 +350,89 @@ def mx_mediastation_platform():
         distutils.file_util.copy_file(platform_str, dst_platform)
         print('Copied ' + platform_str + ' to ' + dst_platform)
         i += 1
+'''
+
+
+def mx_mediastation_platform():
+
+    mx_headless_list = []
+
+    dst_platform = pre_dst + '\\platform'
+
+    pattern = 'mediastation_headlessmedia_3.*.*_f1*'
+
+    for file in glob.glob1(mx_headless, pattern):
+        platform_path = os.path.join(mx_headless, file)
+        mx_headless_list.append(platform_path)
+        mx_headless_list.sort(reverse=True)
+
+    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        platform_str = ''.join(mx_headless_list[i])  # converts list to string
+        distutils.file_util.copy_file(platform_str, dst_platform)
+        print('Copied ' + platform_str + ' to ' + dst_platform)
+        i += 1
+
+
+def mx_mediastation_configuration():
+
+    # array of config folders
+    conf = []
+
+    # pattern to filter out other files
+    pattern = 'vbqa_mediastation_*'
+
+    for path, dirs, files in os.walk(mx_alma):
+        dirs[:] = [d for d in dirs if d not in ['OLD_v3_configuration', 'content', 'product']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):  # find all files that fit the pattern
+                fullpath = os.path.join(path, filename)  # create full path
+                conf.append(fullpath)  # add full path to array
+                conf.sort(reverse=True)  # reverse the list
+
+# define source and destination for future copy
+    dst = pre_dst + '\\configuration'
+
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        str1 = ''.join(conf[i])  # converts list to string
+        distutils.file_util.copy_file(str1, dst)
+        print("Copied " + str1 + " to " + dst)
+        i += 1
+
+
+def mx_mediastation_product():
+
+    mx_media_product_list = []
+
+    dst_media_product = pre_dst + '\\product'
+
+    pattern = 'mediastation_*'
+
+    for path, dirs, files in os.walk(mx_mediastation):
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):
+                fullpath = os.path.join(path, filename)
+                mx_media_product_list.append(fullpath)
+                mx_media_product_list.sort(reverse=True)
+
+    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        mx_media_str = ''.join(mx_media_product_list[i])  # converts list to string
+        distutils.file_util.copy_file(mx_media_str, dst_media_product)
+        print('Copied ' + mx_media_str + ' to ' + dst_media_product)
+        i += 1
+
+
+def mx_mediastation_cert_fix():
+    src_fix = '\\\\alma\\Public2\\Aleksandr_s\\certupdate\\certupdate.exe'
+
+    distutils.file_util.copy_file(src_fix, pre_dst)
+    print('Copied ' + src_fix + ' to ' + pre_dst)
 
 
 if drive_list:
@@ -403,8 +461,8 @@ if drive_list:
             # terminal
             mx_platform_apex()
             mx_platform_blade()
-            mx_product()
-            mx_configuration()
+            mx_terminal_product()
+            mx_terminal_configuration()
             mx_content()
             mx_content_006()
             mx_banners()
@@ -423,17 +481,18 @@ if drive_list:
             # install script
             install()
             # mediastation
-            mx_cashier_product()
+            mx_mediastation_product()
             mx_mediastation_configuration()
             mx_mediastation_platform()
+            mx_mediastation_cert_fix()
             sys.exit()
         if choice == '4':
             print('Preparing to copy EVERYTHING')
             # install script
             install()
             # terminal
-            mx_configuration()
-            mx_product()
+            mx_terminal_configuration()
+            mx_terminal_product()
             mx_content()
             mx_content_006()
             mx_banners()
@@ -444,8 +503,10 @@ if drive_list:
             mx_cashier_product()
             mx_cashier_configuration()
             # mediastation
+            mx_mediastation_product()
             mx_mediastation_platform()
             mx_mediastation_configuration()
+            mx_mediastation_cert_fix()
             sys.exit()
         elif choice == "5":
             sys.exit()
