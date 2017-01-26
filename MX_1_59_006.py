@@ -253,8 +253,13 @@ def mx_banners():
     src_banners_spa_promo = '\\\\alma\\production\\Production_prototype_2012\\0_storage\\generic\\promo\\terminal_banners.promo.SPA.1_1.wim'
 
     distutils.file_util.copy_file(src_banners_spa, dst_banners)
+    print('Copied ' + src_banners_spa + ' to ' + dst_banners)
+
     distutils.file_util.copy_file(src_banners_eng, dst_banners)
+    print('Copied ' + src_banners_eng + ' to ' + dst_banners)
+
     distutils.file_util.copy_file(src_banners_spa_promo, dst_banners)
+    print('Copied ' + src_banners_spa_promo + ' to ' + dst_banners)
 
 
 def mx_platform_blade():
