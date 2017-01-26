@@ -340,6 +340,7 @@ if drive_list:
     print('------------------------------------------------------------------------------------')
     choice = ''
     while choice != '5':
+        print('Please make sure your USB stick is empty before copying.')
         print('Install script v4.0.3 will be copied with any choice')
         choice = input("[1] - if you would like to copy TERMINAL part only: "
                        "\n[2] - if you would like to copy CASHIER part only: "
