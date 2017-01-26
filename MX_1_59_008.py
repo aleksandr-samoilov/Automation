@@ -1,15 +1,11 @@
 import os
-# import string
 import distutils.dir_util
 import distutils.file_util
 from fnmatch import fnmatch
 import win32file
 import sys
 import glob
-# import time
-# import stat
 import re
-# import itertools
 
 # find the letter of USB
 drive_list = []
