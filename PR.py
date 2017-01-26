@@ -247,10 +247,10 @@ def pr_cashier_configuration():
                 conf.append(fullpath)
                 conf.sort(reverse=True)  # reverse the list
 
-# define source and destination for future copy
+    # define source and destination for future copy
     dst1 = pre_dst + '\\configuration'
 
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
     i = 0
     while i != 2:
         str1 = ''.join(conf[i])  # converts list to string
@@ -310,18 +310,20 @@ def pr_mediastation_platform():
 
     dst_platform = pre_dst + '\\platform'
 
-    pattern = 'mediastation_headlessmedia_*'
+    pattern = 'mediastation_headlessmedia_3.*.*_f1*'
 
     for file in glob.glob1(pr_headless, pattern):
         platform_path = os.path.join(pr_headless, file)
         pr_headless_list.append(platform_path)
         pr_headless_list.sort(reverse=True)
 
-    platform_str = ''.join(pr_headless_list[0])
-
-    distutils.file_util.copy_file(platform_str, dst_platform)
-
-    print('Copied ' + platform_str + ' to ' + dst_platform)
+    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        platform_str = ''.join(pr_headless_list[i])  # converts list to string
+        distutils.file_util.copy_file(platform_str, dst_platform)
+        print('Copied ' + platform_str + ' to ' + dst_platform)
+        i += 1
 
 
 def pr_mediastation_product():
@@ -340,11 +342,13 @@ def pr_mediastation_product():
                 pr_media_product_list.append(fullpath)
                 pr_media_product_list.sort(reverse=True)
 
-    pr_media_str = ''.join(pr_media_product_list[0])
-
-    distutils.file_util.copy_file(pr_media_product_list, dst_media_product)
-
-    print('Copied ' + pr_media_str + ' to ' + dst_media_product)
+    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        pr_media_str = ''.join(pr_media_product_list[i])  # converts list to string
+        distutils.file_util.copy_file(pr_media_str, dst_media_product)
+        print('Copied ' + pr_media_str + ' to ' + dst_media_product)
+        i += 1
 
 
 def pr_mediastation_configuration():
@@ -353,9 +357,9 @@ def pr_mediastation_configuration():
     conf = []
 
     # pattern to filter out other files
-    pattern = 'vbqa_mediastation*'
+    pattern = 'PRvbqa_mediastation_dual_es_*'
 
-    for path, dirs, files in os.walk(pr_alma):
+    for path, dirs, files in os.walk(pr_mediastation):
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
         for filename in files:
             if fnmatch(filename, pattern):  # find all files that fit the pattern
@@ -374,6 +378,12 @@ def pr_mediastation_configuration():
         print("Copied " + str1 + " to " + dst1)
         i += 1
 
+
+def pr_mediastation_cert_fix():
+    src_fix = '\\\\alma\\Public2\\Aleksandr_s\\certupdate\\certupdate.exe'
+
+    distutils.file_util.copy_file(src_fix, pre_dst)
+    print('Copied ' + src_fix + ' to ' + pre_dst)
 
 if drive_list:
     print('------------------------------------------------------------------------------------')
@@ -423,6 +433,7 @@ if drive_list:
             pr_mediastation_product()
             pr_mediastation_configuration()
             pr_mediastation_platform()
+            pr_mediastation_cert_fix()
             sys.exit()
         if choice == '4':
             print('Preparing to copy EVERYTHING')
@@ -444,6 +455,7 @@ if drive_list:
             pr_mediastation_product()
             pr_mediastation_configuration()
             pr_mediastation_platform()
+            pr_mediastation_cert_fix()
             sys.exit()
         elif choice == "5":
             sys.exit()
