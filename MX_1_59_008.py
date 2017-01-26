@@ -330,28 +330,6 @@ def mx_cashier_product():
         print("Copied " + str1 + " to " + dst)
         i += 1
 
-'''
-def mx_mediastation_platform():
-
-    mx_headless_list = []
-
-    dst_platform = pre_dst + '\\platform'
-
-    pattern = 'mediastation_headlessmedia_*'
-
-    for file in glob.glob1(mx_headless, pattern):
-        platform_path = os.path.join(mx_headless, file)
-        mx_headless_list.append(platform_path)
-        mx_headless_list.sort(reverse=True)
-
-    i = 0
-    while i != 2:
-        platform_str = ''.join(mx_headless_list[i])  # converts list to string
-        distutils.file_util.copy_file(platform_str, dst_platform)
-        print('Copied ' + platform_str + ' to ' + dst_platform)
-        i += 1
-'''
-
 
 def mx_mediastation_platform():
 
