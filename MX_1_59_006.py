@@ -1,5 +1,4 @@
 import os
-# import string
 import distutils.dir_util
 import distutils.file_util
 from fnmatch import fnmatch
@@ -42,9 +41,6 @@ mx_apex = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\nevada'
 # root folder for Epson 700 cashier
 mx_epson = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\cashier\\epson700'
 
-# root folder for Headless (mediastation) cashier
-mx_headless = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\cashier\\headless'
-
 # root folder for Install Script
 usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
 
@@ -57,7 +53,7 @@ def install():
     print('Install script copied to ' + pre_dst)
 
 
-def mx_configuration():
+def mx_terminal_configuration():
 
     # array of config folders
     conf = []
@@ -113,35 +109,7 @@ def mx_cashier_configuration():
         i += 1
 
 
-def mx_mediastation_configuration():
-
-    # array of config folders
-    conf = []
-
-    # pattern to filter out other files
-    pattern = 'vbqa_mediastation_*'
-
-    for path, dirs, files in os.walk(mx_alma):
-        dirs[:] = [d for d in dirs if d not in ['OLD_v3_configuration', 'content', 'product']]  # ignore folders
-        for filename in files:
-            if fnmatch(filename, pattern):  # find all files that fit the pattern
-                fullpath = os.path.join(path, filename)  # create full path
-                conf.append(fullpath)  # add full path to array
-                conf.sort(reverse=True)  # reverse the list
-
-# define source and destination for future copy
-    dst = pre_dst + '\\configuration'
-
-# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
-    i = 0
-    while i != 2:
-        str1 = ''.join(conf[i])  # converts list to string
-        distutils.file_util.copy_file(str1, dst)
-        print("Copied " + str1 + " to " + dst)
-        i += 1
-
-
-def mx_product():
+def mx_terminal_product():
 
     # array of production folders
     pro = []
@@ -354,27 +322,6 @@ def mx_cashier_platform():
         i += 1
 
 
-def mx_mediastation_platform():
-
-    mx_headless_list = []
-
-    dst_platform = pre_dst + '\\platform'
-
-    pattern = 'mediastation_headlessmedia_*'
-
-    for file in glob.glob1(mx_headless, pattern):
-        platform_path = os.path.join(mx_headless, file)
-        mx_headless_list.append(platform_path)
-        mx_headless_list.sort(reverse=True)
-
-    i = 0
-    while i != 2:
-        platform_str = ''.join(mx_headless_list[i])  # converts list to string
-        distutils.file_util.copy_file(platform_str, dst_platform)
-        print('Copied ' + platform_str + ' to ' + dst_platform)
-        i += 1
-
-
 if drive_list:
     print('------------------------------------------------------------------------------------')
     print('The year 2011 ... ')
@@ -390,9 +337,8 @@ if drive_list:
         print('Install script v4.0.3 will be copied with any choice')
         choice = input("[1] - if you would like to copy TERMINAL part only: "
                        "\n[2] - if you would like to copy CASHIER part only: "
-                       "\n[3] - if you would like to copy MEDIASTATION part only: "
-                       "\n[4] - if you would like to copy EVERYTHING: "
-                       "\n[5] - if you would like to Exit"
+                       "\n[3] - if you would like to copy EVERYTHING: "
+                       "\n[4] - if you would like to Exit"
                        "\nPlease type your choice: ")
         if choice == '1':
             print('Preparing to copy terminal part ...')
@@ -401,8 +347,8 @@ if drive_list:
             # terminal
             mx_platform_apex()
             mx_platform_blade()
-            mx_product()
-            mx_configuration()
+            mx_terminal_product()
+            mx_terminal_configuration()
             mx_content()
             mx_content_008()
             mx_banners()
@@ -417,21 +363,12 @@ if drive_list:
             mx_cashier_configuration()
             sys.exit()
         if choice == '3':
-            print('Preparing to copy mediastation part')
-            # install script
-            install()
-            # mediastation
-            mx_cashier_product()
-            mx_mediastation_configuration()
-            mx_mediastation_platform()
-            sys.exit()
-        if choice == '4':
             print('Preparing to copy EVERYTHING')
             # install script
             install()
             # terminal
-            mx_configuration()
-            mx_product()
+            mx_terminal_configuration()
+            mx_terminal_product()
             mx_content()
             mx_content_008()
             mx_banners()
@@ -441,11 +378,8 @@ if drive_list:
             mx_cashier_platform()
             mx_cashier_product()
             mx_cashier_configuration()
-            # mediastation
-            mx_mediastation_platform()
-            mx_mediastation_configuration()
             sys.exit()
-        elif choice == "5":
+        elif choice == "4":
             sys.exit()
 else:
     input('USB not found. Press Enter to exit')
