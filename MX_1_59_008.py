@@ -216,6 +216,7 @@ def mx_banners():
     distutils.file_util.copy_file(src_banners_spa_promo, dst_banners)
     print('Copied ' + src_banners_spa_promo + ' to ' + dst_banners)
 
+
 def mx_platform_blade():
 
     mx_blade_list = []  # initial list will all files

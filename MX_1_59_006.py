@@ -205,6 +205,7 @@ def mx_content():
 
 
 def mx_content_008():
+
     # new folder required for content to be visible by install script.
     full_path = pre_dst + '\\content\\terminal_mexico_Games.000_1.wim'
     if not os.path.exists(full_path):  # checks if it exists and creates it if not.
@@ -220,7 +221,7 @@ def mx_content_008():
     cont = []
 
     # loop to find all .wim files in "Content" folders and filtering other folders. Results added to cont[] array
-    for path, dirs, files in os.walk(mx_alma):
+    for path, dirs, files in os.walk(mx_alma_008):
         dirs[:] = [d for d in dirs if d not in ['configuration', 'product', 'OLD_v3_configuration']]  # ignore folders
         for filename in files:
             if fnmatch(filename, pattern):
