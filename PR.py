@@ -161,6 +161,7 @@ def pr_banners():
     src_banners_eng = '\\\\alma\\Production\\Production_prototype_2012\\0_storage\\generic\\terminal_banners.generic.SPA.3_1.wim'
     src_banners_spa_promo = '\\\\alma\\production\\Production_prototype_2012\\0_storage\\generic\\promo\\terminal_banners.promo.SPA.1_1.wim'
     src_banners_xlara = '\\\\alma\production\\Production_prototype_2012\\0_storage\\1.04.156\\520_v11\\genericpr\\terminal_bannersX-lara-031-140127_3.wim'
+    src_banners_gen = '\\\\alma\\production\\Production_prototype_2012\\0_storage\\1.04.156\\520_v11\\genericpr\\terminal_banners-130925_3.wim'
 
     distutils.file_util.copy_file(src_banners_spa, dst_banners)
     print('Copied ' + src_banners_spa + ' to ' + dst_banners)
@@ -174,6 +175,8 @@ def pr_banners():
     distutils.file_util.copy_file(src_banners_xlara, dst_banners)
     print('Copied ' + src_banners_xlara + ' to ' + dst_banners)
 
+    distutils.file_util.copy_file(src_banners_gen, dst_banners)
+    print('Copied ' + src_banners_gen + ' to ' + dst_banners)
 
 def pr_platform_lara():
 
