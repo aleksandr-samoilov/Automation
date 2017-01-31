@@ -178,6 +178,7 @@ def pr_banners():
     distutils.file_util.copy_file(src_banners_gen, dst_banners)
     print('Copied ' + src_banners_gen + ' to ' + dst_banners)
 
+
 def pr_platform_lara():
 
     pr_lara_list = []
