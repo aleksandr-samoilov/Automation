@@ -474,7 +474,7 @@ if drive_list:
             mx_terminal_configuration()
             mx_terminal_product()
             mx_content()
-            mx_content_006()
+            # mx_content_006()
             mx_banners()
             mx_platform_blade()
             mx_platform_apex()
