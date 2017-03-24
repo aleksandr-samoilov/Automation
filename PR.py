@@ -130,7 +130,7 @@ def pr_content():
     for path, dirs, files in os.walk(pr_alma):
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'configuration', 'product', '410v2',
                                                 '454']]  # ignore folders
-        files[:] = [f for f in files if f not in ['Banners_wmv_promo.wim']]  # ignore files
+        files[:] = [f for f in files if f not in ['Banners_wmv_promo.wim', 'GDK3_SampleGame']]  # ignore files
         for filename in files:
                 if fnmatch(filename, pattern):
                     content_path = os.path.join(path, filename)
