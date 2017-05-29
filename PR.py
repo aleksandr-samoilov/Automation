@@ -101,6 +101,7 @@ def pr_terminal_product():
 
     # converts path to string
     str2 = ''.join(pro[0])
+    str3 = ''.join(pro[3])
 
     # define destination for future copy
     dst2 = pre_dst + '\\product'
@@ -108,7 +109,8 @@ def pr_terminal_product():
     # copy all files
     distutils.file_util.copy_file(str2, dst2)
     print("Copied " + str2 + " to " + dst2)
-
+    distutils.file_util.copy_file(str3, dst2)
+    print("Copied " + str3 + " to " + dst2)
 
 def pr_content():
 
