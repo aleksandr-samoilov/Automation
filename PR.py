@@ -90,7 +90,7 @@ def pr_terminal_product():
     # array of production folders
     pro = []
 
-    pattern = 'terminal_single_es*'
+    pattern = 'terminal_*'
     for path, dirs, files in os.walk(pr_alma):
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration']]  # ignore folders
         for filename in files:
