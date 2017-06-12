@@ -78,7 +78,7 @@ def pr_terminal_configuration():
 
 # copy top 8 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
     i = 0
-    while i != 8:
+    while i != 10:
         str1 = ''.join(conf[i])  # converts list to string
         distutils.file_util.copy_file(str1, dst1)
         print("Copied " + str1 + " to " + dst1)
@@ -111,6 +111,7 @@ def pr_terminal_product():
     print("Copied " + str2 + " to " + dst2)
     distutils.file_util.copy_file(str3, dst2)
     print("Copied " + str3 + " to " + dst2)
+
 
 def pr_content():
 
