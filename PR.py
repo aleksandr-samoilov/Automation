@@ -5,6 +5,7 @@ from fnmatch import fnmatch
 import win32file
 import sys
 import glob
+import re
 
 # find the letter of USB
 drive_list = []
@@ -47,6 +48,9 @@ pr_mediastation = '\\\\alma\\Images\\Internal images\\Mexico\\1.04.155'
 
 # root folder for Install Script
 usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
+
+# root folder for Blade Platform
+mx_blade = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\blade'
 
 ''' End of list '''
 
@@ -220,6 +224,28 @@ def pr_platform_blade():
     distutils.file_util.copy_file(platform_str, dst_platform)
 
     print('Copied ' + platform_str + ' to ' + dst_platform)
+
+
+def mx_platform_blade():
+
+    mx_blade_list = []  # initial list will all files
+
+    dst = pre_dst + '\\platform'  # destination for copy
+
+    pattern = 'terminal_mxblade_*.*'
+    files = glob.glob1(mx_blade, pattern)  # find all files that fit the pattern
+    mx_blade_list.append(files)  # add those files in the list
+    str1 = ' '.join(mx_blade_list[0])  # convert list to string
+    p = re.compile('\w+\d.\d\d')  # look though string files that fit this pattern with numbers
+    m = p.findall(str1)  # find files using the constructor above
+    m1 = max(m)  # find the biggest number
+    str2 = ''.join(m1)  # convert list to string
+    path1 = mx_blade + '\\' + str2 + '.wim'  # prepare full path to copy .wim file
+    path2 = mx_blade + '\\' + str2 + '.md5'  # prepare full path to copy .md5 file
+    distutils.file_util.copy_file(path1, dst)  # copy file
+    print('Copied ' + str2 + '.wim' + ' to ' + dst)
+    distutils.file_util.copy_file(path2, dst)
+    print('Copied ' + str2 + '.md5' + ' to ' + dst)
 
 
 def pr_platform_silverball():
@@ -422,6 +448,7 @@ if drive_list:
             # terminal
             pr_platform_silverball()
             pr_platform_blade()
+            mx_platform_blade()
             pr_platform_lara()
             pr_terminal_product()
             pr_terminal_configuration()
@@ -454,6 +481,7 @@ if drive_list:
             # terminal
             pr_platform_silverball()
             pr_platform_blade()
+            mx_platform_blade()
             pr_platform_lara()
             pr_terminal_product()
             pr_terminal_configuration()
