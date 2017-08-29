@@ -485,6 +485,7 @@ if drive_list:
             pr_mediastation_configuration()
             pr_mediastation_platform()
             pr_mediastation_cert_fix()
+            pr_mediastation_exec()
             sys.exit()
         if choice == '4':
             print('Preparing to copy EVERYTHING')
