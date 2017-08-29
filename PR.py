@@ -427,7 +427,7 @@ def pr_mediastation_cert_fix():
 
 # executable Mediastation install from 1.55 MX for PR test server
 def pr_mediastation_exec():
-    src_exec = '\\\\alma\Images\\Internal images\Mexico\\1.04.155\\570\product'
+    src_exec = '\\\\alma\\Images\\Internal images\\Mexico\\1.04.155\\570\\product\\mexico_mediastation_dual_es_1.04.155.570.exe'
 
     distutils.file_util.copy_file(src_exec, pre_dst)
     print('Copied ' + src_exec + ' to ' + pre_dst)
