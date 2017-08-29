@@ -190,8 +190,6 @@ def pr_platform_lara():
 
     pr_lara_list = []
 
-    dst_platform = pre_dst + '\\platform'
-
     for path, dirs, files in os.walk(pr_lara):
         for filename in files:
             if filename.endswith('.wim'):
@@ -199,11 +197,15 @@ def pr_platform_lara():
                 pr_lara_list.append(platform_path)
                 pr_lara_list.sort(key=lambda x: os.stat(os.path.join(platform_path, x)).st_ctime, reverse=True)
 
-    platform_str = ''.join(pr_lara_list[0])
+    platform_str1 = ''.join(pr_lara_list[0])
+    platform_str2 = ''.join(pr_lara_list[1])
 
-    distutils.file_util.copy_file(platform_str, dst_platform)
+    dst_platform = pre_dst + '\\platform'
 
-    print('Copied ' + platform_str + ' to ' + dst_platform)
+    distutils.file_util.copy_file(platform_str1, dst_platform)
+    print('Copied ' + platform_str1 + ' to ' + dst_platform)
+    distutils.file_util.copy_file(platform_str2, dst_platform)
+    print('Copied ' + platform_str2 + ' to ' + dst_platform)
 
 
 def pr_platform_blade():
@@ -287,7 +289,7 @@ def pr_cashier_configuration():
     # define source and destination for future copy
     dst1 = pre_dst + '\\configuration'
 
-    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
     i = 0
     while i != 2:
         str1 = ''.join(conf[i])  # converts list to string
@@ -354,7 +356,7 @@ def pr_mediastation_platform():
         pr_headless_list.append(platform_path)
         pr_headless_list.sort(reverse=True)
 
-    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
     i = 0
     while i != 2:
         platform_str = ''.join(pr_headless_list[i])  # converts list to string
@@ -379,7 +381,7 @@ def pr_mediastation_product():
                 pr_media_product_list.append(fullpath)
                 pr_media_product_list.sort(reverse=True)
 
-    # copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
     i = 0
     while i != 2:
         pr_media_str = ''.join(pr_media_product_list[i])  # converts list to string
@@ -422,6 +424,15 @@ def pr_mediastation_cert_fix():
     distutils.file_util.copy_file(src_fix, pre_dst)
     print('Copied ' + src_fix + ' to ' + pre_dst)
 
+
+# executable Mediastation install from 1.55 MX for PR test server
+def pr_mediastation_exec():
+    src_exec = '\\\\alma\Images\\Internal images\Mexico\\1.04.155\\570\product'
+
+    distutils.file_util.copy_file(src_exec, pre_dst)
+    print('Copied ' + src_exec + ' to ' + pre_dst)
+
+
 if drive_list:
     print('------------------------------------------------------------------------------------')
     print('The year 2011 ... ')
@@ -440,6 +451,7 @@ if drive_list:
                        "\n[3] - if you would like to copy MEDIASTATION part only: "
                        "\n[4] - if you would like to copy EVERYTHING: "
                        "\n[5] - if you would like to Exit"
+                       "\n[6] - DEBUG"
                        "\nPlease type your choice: ")
         if choice == '1':
             print('Preparing to copy terminal part ...')
@@ -496,6 +508,7 @@ if drive_list:
             pr_mediastation_configuration()
             pr_mediastation_platform()
             pr_mediastation_cert_fix()
+            pr_mediastation_exec()
             sys.exit()
         elif choice == "5":
             sys.exit()
