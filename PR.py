@@ -451,7 +451,6 @@ if drive_list:
                        "\n[3] - if you would like to copy MEDIASTATION part only: "
                        "\n[4] - if you would like to copy EVERYTHING: "
                        "\n[5] - if you would like to Exit"
-                       "\n[6] - DEBUG"
                        "\nPlease type your choice: ")
         if choice == '1':
             print('Preparing to copy terminal part ...')
