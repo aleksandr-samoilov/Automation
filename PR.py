@@ -433,6 +433,14 @@ def pr_mediastation_exec():
     print('Copied ' + src_exec + ' to ' + pre_dst)
 
 
+# old luckycash2 lobby without Dual Screen Support. (Lobby pack 673 has Dual Screen support)
+
+def pr_luckycash2_lobby():
+    src_lobby = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156\\710\content\\terminal_puertorico-gdLobbies.649_1.wim\\lobby_luckycash2.wim'
+
+    distutils.file_util.copy_file(src_lobby, pre_dst)
+    print('Copied ' + src_lobby + ' to ' + pre_dst)
+
 if drive_list:
     print('------------------------------------------------------------------------------------')
     print('The year 2011 ... ')
@@ -465,6 +473,7 @@ if drive_list:
             pr_terminal_configuration()
             pr_content()
             pr_banners()
+            pr_luckycash2_lobby()
             sys.exit()
         if choice == '2':
             print('Preparing to copy cashier part')
@@ -499,6 +508,7 @@ if drive_list:
             pr_terminal_configuration()
             pr_content()
             pr_banners()
+            pr_luckycash2_lobby()
             # cashier
             pr_cashier_platform()
             pr_cashier_product()
