@@ -96,7 +96,8 @@ def pr_terminal_product():
 
     pattern = 'terminal_*'
     for path, dirs, files in os.walk(pr_alma):
-        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration']]  # ignore folders
+        # ignore folders
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration', 'META-INF']]
         for filename in files:
             if fnmatch(filename, pattern):
                 fullpath = os.path.join(path, filename)  # filename)
@@ -105,7 +106,8 @@ def pr_terminal_product():
 
     # converts path to string
     str2 = ''.join(pro[0])
-    str3 = ''.join(pro[3])
+    # need to fix .md5 copying if needed
+    # str3 = ''.join(pro[3])
 
     # define destination for future copy
     dst2 = pre_dst + '\\product'
@@ -113,8 +115,8 @@ def pr_terminal_product():
     # copy all files
     distutils.file_util.copy_file(str2, dst2)
     print("Copied " + str2 + " to " + dst2)
-    distutils.file_util.copy_file(str3, dst2)
-    print("Copied " + str3 + " to " + dst2)
+    # distutils.file_util.copy_file(str3, dst2)
+    # print("Copied " + str3 + " to " + dst2)
 
 
 def pr_content():
@@ -434,12 +436,12 @@ def pr_mediastation_exec():
 
 
 # old luckycash2 lobby without Dual Screen Support. (Lobby pack 673 has Dual Screen support)
-
 def pr_luckycash2_lobby():
     src_lobby = '\\\\alma\\Images\\Internal images\\Puertorico\\1.04.156\\710\content\\terminal_puertorico-gdLobbies.649_1.wim\\lobby_luckycash2.wim'
 
     distutils.file_util.copy_file(src_lobby, pre_dst)
     print('Copied ' + src_lobby + ' to ' + pre_dst)
+
 
 if drive_list:
     print('------------------------------------------------------------------------------------')
