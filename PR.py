@@ -89,12 +89,12 @@ def pr_terminal_configuration():
         i += 1
 
 
-def pr_terminal_product():
+def pr_terminal_product_dual():
 
     # array of production folders
     pro = []
 
-    pattern = 'terminal_*'
+    pattern = 'terminal_dual_*'
     for path, dirs, files in os.walk(pr_alma):
         # ignore folders
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration', 'META-INF']]
@@ -115,8 +115,34 @@ def pr_terminal_product():
     # copy all files
     distutils.file_util.copy_file(str2, dst2)
     print("Copied " + str2 + " to " + dst2)
-    # distutils.file_util.copy_file(str3, dst2)
-    # print("Copied " + str3 + " to " + dst2)
+
+
+def pr_terminal_product_single():
+
+    # array of production folders
+    pro = []
+
+    pattern = 'terminal_single_*'
+    for path, dirs, files in os.walk(pr_alma):
+        # ignore folders
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'configuration', 'META-INF']]
+        for filename in files:
+            if fnmatch(filename, pattern):
+                fullpath = os.path.join(path, filename)  # filename)
+                pro.append(fullpath)
+                pro.sort(reverse=True)
+
+    # converts path to string
+    str3 = ''.join(pro[0])
+    # need to fix .md5 copying if needed
+    # str3 = ''.join(pro[3])
+
+    # define destination for future copy
+    dst3 = pre_dst + '\\product'
+
+    # copy all files
+    distutils.file_util.copy_file(str3, dst3)
+    print("Copied " + str3 + " to " + dst3)
 
 
 def pr_content():
@@ -471,7 +497,8 @@ if drive_list:
             pr_platform_blade()
             mx_platform_blade()
             pr_platform_lara()
-            pr_terminal_product()
+            pr_terminal_product_dual()
+            pr_terminal_product_single()
             pr_terminal_configuration()
             pr_content()
             pr_banners()
@@ -506,7 +533,8 @@ if drive_list:
             pr_platform_blade()
             mx_platform_blade()
             pr_platform_lara()
-            pr_terminal_product()
+            pr_terminal_product_dual()
+            pr_terminal_product_single()
             pr_terminal_configuration()
             pr_content()
             pr_banners()
