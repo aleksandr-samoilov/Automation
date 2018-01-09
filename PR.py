@@ -37,7 +37,7 @@ pr_blade = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\puertori
 # root folder for Silverball Platform
 pr_silverball = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\puertorico'
 
-# root folder for Partnertech 6200 cashier
+# root folder for Partnertech 6200 and 6515 cashier
 pr_partnertech = '\\\\alma\\Images\\Internal images\\GD\\Platforms\cashier\\partnertech'
 
 # root folder for Headless (mediastation) cashier platform
@@ -46,8 +46,11 @@ pr_headless = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\cashier\\headle
 # root folder for Mediastation product and Configuration. Yes, it is from 1.55 Mexico
 pr_mediastation = '\\\\alma\\Images\\Internal images\\Mexico\\1.04.155'
 
-# root folder for Install Script
+# root folder for Install Script (Windows XP)
 usb_hdd_install = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3\\USB_HDD_Install'
+
+# root folder for 4.0.3 v3.0 Install Script for 6515 cashier (Windows 7)
+usb_hdd_install_v3 = '\\\\alma\\Projects\\GD\\Automation\\V4.0.3_PE3.0\\USB_HDD_Install'
 
 # root folder for Blade Platform
 mx_blade = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\blade'
@@ -58,6 +61,12 @@ mx_blade = '\\\\alma\\Images\\Internal images\\GD\\Platforms\\terminal\\blade'
 def install():
 
     distutils.dir_util.copy_tree(usb_hdd_install, pre_dst)
+    print('Install script copied to ' + pre_dst)
+
+
+def install_v3():
+
+    distutils.dir_util.copy_tree(usb_hdd_install_v3, pre_dst)
     print('Install script copied to ' + pre_dst)
 
 
@@ -164,7 +173,7 @@ def pr_content():
     # loop to find all .wim files in "Content" folders and filtering other folders. Results added to cont[] array
     for path, dirs, files in os.walk(pr_alma):
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'configuration', 'product', '410v2',
-                                                '454']]  # ignore folders
+                                                '454', 'configuration_old']]  # ignore folders
         files[:] = [f for f in files if f not in ['Banners_wmv_promo.wim', 'GDK3_SampleGame']]  # ignore files
         for filename in files:
                 if fnmatch(filename, pattern):
@@ -242,21 +251,34 @@ def pr_platform_blade():
 
     dst_platform = pre_dst + '\\platform'
 
-    pattern = 'terminal_blade_*.wim'
-
-    for file in glob.glob1(pr_blade, pattern):
-        platform_path = os.path.join(pr_blade, file)
-        pr_blade_list.append(platform_path)
-        pr_blade_list.sort(reverse=True)
-
-    platform_str = ''.join(pr_blade_list[0])
-
-    distutils.file_util.copy_file(platform_str, dst_platform)
-
-    print('Copied ' + platform_str + ' to ' + dst_platform)
+    pattern = 'terminal_blade_*.*'
+    files = glob.glob1(pr_blade, pattern)  # find all files that fit the pattern
+    pr_blade_list.append(files)  # add those files in the list
+    str1 = ' '.join(pr_blade_list[0])  # convert list to string
+    p = re.compile('terminal_blade_\d.\d\dgd')  # single - look though string files that fit this pattern with numbers
+    p1 = re.compile('terminal_blade_ds_mplayer_\d.\d\d')  # dual - look though string files that fit this pattern with numbers
+    single = p.findall(str1)  # single - find files using the constructor above
+    dual = p1.findall(str1)  # dual
+    single_max = max(single)  # single - find the biggest number
+    dual_max = max(dual)  # dual
+    str2 = ''.join(single_max)  # single - convert list to string
+    str3 = ''.join(dual_max)  # dual
+    path1 = pr_blade + '\\' + str2 + '.wim'  # single - prepare full path to copy .wim file
+    path2 = pr_blade + '\\' + str2 + '.md5'  # single - prepare full path to copy .md5 file
+    path3 = pr_blade + '\\' + str3 + '.wim'  # dual
+    path4 = pr_blade + '\\' + str3 + '.md5'  # dual
+    distutils.file_util.copy_file(path1, dst_platform)  # copy file
+    print('Copied ' + path1 + ' to ' + dst_platform)
+    distutils.file_util.copy_file(path2, dst_platform)
+    print('Copied ' + path2 + ' to ' + dst_platform)
+    distutils.file_util.copy_file(path3, dst_platform)
+    print('Copied ' + path3 + ' to ' + dst_platform)
+    distutils.file_util.copy_file(path4, dst_platform)
+    print('Copied ' + path4 + ' to ' + dst_platform)
 
 
 def mx_platform_blade():
+    # !!obsolete!!
 
     mx_blade_list = []  # initial list will all files
 
@@ -298,13 +320,41 @@ def pr_platform_silverball():
     print('Copied ' + platform_str + ' to ' + dst_platform)
 
 
-def pr_cashier_configuration():
+def pr_cashier_configuration_6200():
 
     # array of config folders
     conf = []
 
     # pattern to filter out other files
     pattern = 'vbqa_cashier_partnertech6200_*'
+
+    for path, dirs, files in os.walk(pr_alma):
+        dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
+        for filename in files:
+            if fnmatch(filename, pattern):  # find all files that fit the pattern
+                fullpath = os.path.join(path, filename)  # filename)
+                conf.append(fullpath)
+                conf.sort(reverse=True)  # reverse the list
+
+    # define source and destination for future copy
+    dst1 = pre_dst + '\\configuration'
+
+# copy top 2 files (those will be terminal configuration files. Most likely). Change to lower number in case of problems
+    i = 0
+    while i != 2:
+        str1 = ''.join(conf[i])  # converts list to string
+        distutils.file_util.copy_file(str1, dst1)
+        print("Copied " + str1 + " to " + dst1)
+        i += 1
+
+
+def pr_cashier_configuration_6515():
+
+    # array of config folders
+    conf = []
+
+    # pattern to filter out other files
+    pattern = 'vbqa_cashier_partnertech6515_*'
 
     for path, dirs, files in os.walk(pr_alma):
         dirs[:] = [d for d in dirs if d not in ['ignore_500', 'ignore', 'content', 'product']]  # ignore folders
@@ -351,13 +401,33 @@ def pr_cashier_product():
     print("Copied " + str2 + " to " + dst2)
 
 
-def pr_cashier_platform():
+def pr_cashier_platform_6200():
 
     pr_partnertech_list = []
 
     dst_platform = pre_dst + '\\platform'
 
     pattern = 'cashier_partnertech6200_*'
+
+    for file in glob.glob1(pr_partnertech, pattern):
+        platform_path = os.path.join(pr_partnertech, file)
+        pr_partnertech_list.append(platform_path)
+        pr_partnertech_list.sort(reverse=True)
+
+    platform_str = ''.join(pr_partnertech_list[0])
+
+    distutils.file_util.copy_file(platform_str, dst_platform)
+
+    print('Copied ' + platform_str + ' to ' + dst_platform)
+
+
+def pr_cashier_platform_6515():
+
+    pr_partnertech_list = []
+
+    dst_platform = pre_dst + '\\platform'
+
+    pattern = 'cashier_partnertech6515_*'
 
     for file in glob.glob1(pr_partnertech, pattern):
         platform_path = os.path.join(pr_partnertech, file)
@@ -483,10 +553,11 @@ if drive_list:
         print('Please make sure your USB stick is empty before copying.')
         print('Install script v4.0.3 will be copied with any choice.')
         choice = input("[1] - if you would like to copy TERMINAL part only: "
-                       "\n[2] - if you would like to copy CASHIER part only: "
-                       "\n[3] - if you would like to copy MEDIASTATION part only: "
-                       "\n[4] - if you would like to copy EVERYTHING: "
-                       "\n[5] - if you would like to Exit"
+                       "\n[2] - if you would like to copy CASHIER PT6200 part only: "
+                       "\n[3] - if you would like to copy CASHIER PT6515 (it will include different install script!!): "
+                       "\n[4] - if you would like to copy MEDIASTATION part only: "
+                       "\n[5] - if you would like to copy EVERYTHING (includes only PT6200 cashier!!): "
+                       "\n[6] - if you would like to EXIT"
                        "\nPlease type your choice: ")
         if choice == '1':
             print('Preparing to copy terminal part ...')
@@ -495,7 +566,6 @@ if drive_list:
             # terminal
             pr_platform_silverball()
             pr_platform_blade()
-            mx_platform_blade()
             pr_platform_lara()
             pr_terminal_product_dual()
             pr_terminal_product_single()
@@ -505,16 +575,25 @@ if drive_list:
             pr_luckycash2_lobby()
             sys.exit()
         if choice == '2':
-            print('Preparing to copy cashier part')
+            print('Preparing to copy PT6200 part ...')
             # install script
             install()
             # cashier
-            pr_cashier_platform()
+            pr_cashier_platform_6200()
             pr_cashier_product()
-            pr_cashier_configuration()
+            pr_cashier_configuration_6200()
             sys.exit()
         if choice == '3':
-            print('Preparing to copy mediastation part')
+            print('Preparing to copy PT6515 part ...')
+            # install script v3.0
+            install_v3()
+            # cashier part
+            pr_cashier_configuration_6515()
+            pr_cashier_platform_6515()
+            pr_cashier_product()
+            sys.exit()
+        if choice == '4':
+            print('Preparing to copy mediastation part ...')
             # install script
             install()
             # mediastation
@@ -524,14 +603,13 @@ if drive_list:
             pr_mediastation_cert_fix()
             pr_mediastation_exec()
             sys.exit()
-        if choice == '4':
+        if choice == '5':
             print('Preparing to copy EVERYTHING')
             # install script
             install()
             # terminal
             pr_platform_silverball()
             pr_platform_blade()
-            mx_platform_blade()
             pr_platform_lara()
             pr_terminal_product_dual()
             pr_terminal_product_single()
@@ -540,9 +618,9 @@ if drive_list:
             pr_banners()
             pr_luckycash2_lobby()
             # cashier
-            pr_cashier_platform()
+            pr_cashier_platform_6200()
             pr_cashier_product()
-            pr_cashier_configuration()
+            pr_cashier_configuration_6200()
             # mediastation
             pr_mediastation_product()
             pr_mediastation_configuration()
@@ -550,7 +628,7 @@ if drive_list:
             pr_mediastation_cert_fix()
             pr_mediastation_exec()
             sys.exit()
-        elif choice == "5":
+        elif choice == '6':
             sys.exit()
 else:
     input('USB not found. Press Enter to exit')
