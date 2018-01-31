@@ -136,14 +136,14 @@ def mx_content():
                     content_path = os.path.join(path, filename)
                     split_name = content_path.split('\\')[7]
                     build_version = int(split_name)
-                    if build_version >= 0o10:
+                    if build_version >= 0o60:  # last folder it will look for
                         cont.append(content_path)
                         cont.sort(reverse=True)
 
     i = 0
     while i < len(cont):
         str1 = ''.join(cont[i])  # source path in string for future copy
-        head, tail = os.path.split(cont[i])  # split full path from array in 2 parts: path (head) and file name (tale)
+        head, tail = os.path.split(cont[i])  # split full path from array in 2 parts: path (head) and file name (tail)
         if os.path.exists(dst + '\\' + tail):  # if file with "tail" name exists in destination folder -> skip
             print("skip " + tail)
             i += 1
@@ -178,10 +178,9 @@ def mx_content_006():
                     content_path = os.path.join(path, filename)
                     split_name = content_path.split('\\')[7]
                     build_version = int(split_name)
-                    if build_version >= 0o10:
+                    if build_version >= 240:  # last folder it will look for
                         cont.append(content_path)
                         cont.sort(reverse=True)
-
     i = 0
     while i < len(cont):
         str1 = ''.join(cont[i])  # source path in string for future copy
@@ -474,7 +473,7 @@ if drive_list:
             mx_terminal_configuration()
             mx_terminal_product()
             mx_content()
-            # mx_content_006()
+            mx_content_006()
             mx_banners()
             mx_platform_blade()
             mx_platform_apex()
